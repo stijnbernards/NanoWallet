@@ -1,0 +1,167 @@
+<div class="namespace-provision-page">
+    <div class="container-fluid main">
+        <div class="row">
+            <div class="col-sm-11">
+                <h2>{{ 'COUPONS_CREATE_TITLE' | translate }}</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9 col-lg-7">
+                <div class="panel-heading">
+                    <div class="tabDescription">
+                        <span>
+                            {{ 'COUPONS_CREATE_NAME' | translate }}
+                        </span>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a>
+                                {{'COUPONS_TAB_CREATE' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <!-- MULTISIG ACCOUNT -->
+                    <fieldset class="form-group" ng-show="$ctrl.formData.isMultisig">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <label>{{ 'GENERAL_MULTISIG_ACCOUNT' | translate }}:</label>
+                            </span>
+
+                            <select class="form-control"
+                                    ng-options="(acc.address | fmtContact:$ctrl.contacts) for acc in $ctrl._DataBridge.accountData.meta.cosignatoryOf track by acc.address"
+                                    ng-model="$ctrl.formData.multisigAccount"></select>
+                        </div>
+                    </fieldset>
+                    <!-- MULTISIG ACCOUNT BALANCE -->
+                    <fieldset class="form-group" ng-show="$ctrl.formData.isMultisig && $ctrl.formData.multisigAccount">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <label>{{ 'FORM_SIDE_BTN_BALANCE' | translate }}: </label>
+                            </span>
+
+                            <div class="form-control formFloat" readOnly>
+                                <input class="readOnly"
+                                       type="text"
+                                       value="{{ ($ctrl.formData.multisigAccount.balance | fmtNemValue)[0] }}.{{ ($ctrl.formData.multisigAccount.balance | fmtNemValue)[1] }}"
+                                       readOnly/>
+                                <label class="floatRight">
+                                    <small>XEM</small>
+                                </label>
+                           </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- START COUPON FIELDS -->
+
+                    <fieldset class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-btn coupon-name">
+                                <label>{{'COUPONS_CREATE_FORM_COUPON_NAME' | translate}}: </label>
+                            </span>
+
+                            <input type="text" class="form-control" ng-model="$ctrl.formData.coupon.name" placeholder="{{'COUPONS_CREATE_FORM_COUPON_NAME_PLACEHOLDER' | translate}}" ng-change="$ctrl.updateFees();"  ng-class="$ctrl.charsLeft < 0 ? 'has-error' : ''" />
+                        </div>
+                        <p style="float:right;margin-top:5px;">
+                            <b>{{ 'GENERAL_CHARACTERS_LEFT' | translate }}</b>: {{ $ctrl.charsLeft }}
+                        </p>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-btn coupon-type">
+                                <label>{{'COUPONS_CREATE_FORM_COUPON_TYPE_NAME' | translate}}: </label>
+                            </span>
+
+                            <input id="box1" type="radio" name="couponType" value="0" ng-model="$ctrl.formData.coupon.type" checked="checked">
+                            <label for="box1">{{'COUPONS_CREATE_FORM_PERCENTAGE' | translate}}</label>
+
+                            <br />
+
+                            <input id="box2" type="radio" name="couponType" value="1" ng-model="$ctrl.formData.coupon.type">
+                            <label for="box2">{{'COUPONS_CREATE_FORM_FIXED' | translate}}</label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="input-group" ng-show="$ctrl.formData.coupon.type == 0">
+                            <span class="input-group-btn coupon-amount">
+                                <label>{{'COUPONS_CREATE_FORM_COUPON_PERCENTAGE_AMOUNT_NAME' | translate}}: </label>
+                            </span>
+
+                            <input ng-checked="$ctrl.formData.coupon.type == 0" type="number" value="0" max="100" min="0" class="form-control" ng-model="$ctrl.formData.coupon.amount" placeholder="{{'COUPONS_CREATE_FORM_COUPON_PERCENTAGE_AMOUNT_PLACEHOLDER' | translate}}" ng-change="$ctrl.updateFees();" ng-class="($ctrl.formData.coupon.amount <= 100 && $ctrl.formData.coupon.amount >= 0) ? '' : 'has-error'" />
+                        </div>
+
+                        <div class="input-group" ng-show="$ctrl.formData.coupon.type == 1">
+                            <span class="input-group-btn coupon-amount">
+                                <label>{{'COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_NAME' | translate}}: </label>
+                            </span>
+
+                            <input type="number" class="form-control" ng-model="$ctrl.formData.coupon.amount" placeholder="{{'COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_PLACEHOLDER' | translate}}" ng-change="$ctrl.updateFees();" />
+                        </div>
+                    </fieldset>
+
+                    <!-- END COUPON FIELDS -->
+
+                    <!-- Transaction fee calculation section -->
+                    <fieldset class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <label>{{'GENERAL_FEE' | translate}}: </label>
+                            </span>
+                            <div class="form-control formFloat" readOnly>
+                                <span class="feeAmount">
+                                    <!-- Multisig fee -->
+                                    <span ng-show="$ctrl.formData.isMultisig">
+                                        {{($ctrl.formData.innerFee | fmtNemValue)[0]}}.{{($ctrl.formData.innerFee | fmtNemValue)[1]}} +
+                                    </span>
+
+                                    <!-- Transaction fee -->
+                                    <span>
+                                        {{($ctrl.formData.fee | fmtNemValue)[0]}}.{{($ctrl.formData.fee | fmtNemValue)[1]}}
+                                        <span ng-show="$ctrl.formData.encryptMessage">
+                                            (+ encryption fees)
+                                        </span>
+                                    </span>
+
+                                </span>
+                                <label class="floatRight"><small>XEM</small></label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- PASSWORD FIELD -->
+                    <fieldset class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <label ng-class="!$ctrl.common.password.length ? 'has-error' : ''">{{ 'FORM_PASSWORD' | translate }}:</label>
+                            </span>
+
+                            <input class="form-control" type="password" placeholder="{{ 'FORM_PASSWORD_FIELD_PLACEHOLDER' | translate }}" ng-model="$ctrl.common.password" ng-class="!$ctrl.common.password.length ? 'has-error' : ''"/>
+                        </div>
+                    </fieldset>
+
+                    <!-- SEND TRANSACTION -->
+                    <button class="btn btn-success" type="submit" ng-disabled="$ctrl.okPressed || !$ctrl.common.password.length" ng-click="$ctrl.send()">
+                        <i class="fa fa-send"></i> {{ 'COUPONS_CREATE_FORM_SUBMIT' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-lg-5">
+                <div class="panel-heading">
+                    <h3>{{ 'COUPONS_CREATE_RESTRICTIONS' | translate }}</h3>
+                </div>
+                <div class="panel-body row">
+                    <div class="col-md-12 col-lg-12">
+                        <p>{{ 'COUPONS_CREATE_INFORMATION_1' | translate }}</p>
+                        <pre>a, b, c, ..., z, 0, 1, 2, ..., 9, _ , - mag niet blaat</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

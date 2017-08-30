@@ -45,7 +45,14 @@ function TagTransaction(NetworkRequests, Alert, Wallet, $filter, Transactions, $
                 scope.disableDecryption = true;
             }
 
-            scope.templateName = helpers.txTypeToName(scope.tx.type);
+            if(scope.tx.recipient) {
+                scope.templateName = helpers.txAddressToType(scope.tx.recipient, Wallet);
+            }
+
+            if(scope.templateName === false || scope.templateName === undefined) {
+                scope.templateName = helpers.txTypeToName(scope.tx.type);
+            }
+
             scope.templateUri = 'layout/lines/line' + scope.templateName + '.html';
 
             scope.mosaicIdToName = helpers.mosaicIdToName;

@@ -72,6 +72,16 @@ let MosaicDefinition = 0x4001; // 16385
  */
 let MosaicSupply = 0x4002; // 16386
 
+/**
+ * The coupon transaction type
+ * Since we can't do NIS edits we will keep this here as placeholder
+ *
+ * @type {string}
+ *
+ * @default
+ */
+let CouponTransaction = 0x5001;
+
 module.exports = {
     Transfer,
     ImportanceTransfer,
@@ -80,5 +90,6 @@ module.exports = {
     MultisigTransaction,
     ProvisionNamespace,
     MosaicDefinition,
-    MosaicSupply
+    MosaicSupply,
+    CouponTransaction
 }

@@ -704,7 +704,31 @@ function EnglishProvider($translateProvider) {
         FORM_TITLE_FIELD_PLACEHOLDER: 'Title',
         FORM_DESCRIPTION_FIELD_PLACEHOLDER: 'Write your description here',
         FORM_OPTION_FIELD_PLACEHOLDER: 'write option',
-        FORM_WHITELIST_FIELD_PLACEHOLDER: 'account address'
+        FORM_WHITELIST_FIELD_PLACEHOLDER: 'account address',
+
+        //COUPONS MODULE
+        PORTAL_COUPONS_TITLE: 'Coupons',
+        PORTAL_COUPONS_TEXT: 'Create, edit and manage coupons',
+        PORTAL_COUPONS_CREATE: 'Create',
+        PORTAL_COUPONS_VIEW: 'View',
+
+        COUPONS_CREATE_TITLE: 'Create a coupon',
+        COUPONS_CREATE_NAME: 'Create',
+        COUPONS_CREATE_RESTRICTIONS: 'Coupon restrictie informatie etc',
+        COUPONS_CREATE_INFORMATION_1: 'Coupon informatie 1',
+
+        COUPONS_TAB_CREATE: 'Create',
+
+        COUPONS_CREATE_FORM_COUPON_NAME: 'Coupon Name',
+        COUPONS_CREATE_FORM_COUPON_NAME_PLACEHOLDER: 'Enter Coupon Name',
+        COUPONS_CREATE_FORM_SUBMIT: 'Create Coupon!',
+        COUPONS_CREATE_FORM_COUPON_TYPE_NAME: 'Coupon type',
+        COUPONS_CREATE_FORM_PERCENTAGE: 'Percentage based discount',
+        COUPONS_CREATE_FORM_FIXED: 'Fixed discount',
+        COUPONS_CREATE_FORM_COUPON_PERCENTAGE_AMOUNT_NAME: 'Percentage discount',
+        COUPONS_CREATE_FORM_COUPON_PERCENTAGE_AMOUNT_PLACEHOLDER: 'Enter Amount',
+        COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_NAME: 'Fixed discount',
+        COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_PLACEHOLDER: 'Enter Amount'
     });
 
 }

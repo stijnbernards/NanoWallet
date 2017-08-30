@@ -39,4 +39,8 @@ servicesModule.service('nemUtils', nemUtilsService);
 import VotingService from './voting.service';
 servicesModule.service('Voting', VotingService);
 
+// Set Coupons service
+import CouponsService from './coupons.service';
+servicesModule.service('Coupons', CouponsService);
+
 export default servicesModule;

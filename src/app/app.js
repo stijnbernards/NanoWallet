@@ -46,6 +46,7 @@ import './modules/changelly';
 import './modules/addressBook';
 import './modules/faq';
 import './modules/voting';
+import './modules/coupons';
 
 // Create and bootstrap application
 const requires = [
@@ -92,7 +93,11 @@ const requires = [
     'app.changelly',
     'app.addressBook',
     'app.votingCreatePoll',
-    'app.votingPolls'
+    'app.votingPolls',
+
+    //Coupons
+    'app.couponsView',
+    'app.couponsCreate'
 ];
 
 window.$ = window.jQuery = $;

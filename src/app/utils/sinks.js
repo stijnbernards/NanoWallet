@@ -1,7 +1,7 @@
 /** @module utils/sinks */
 
 /**
- * The namespace, mosaic and apostille sink accounts
+ * The namespace, mosaic, apostille and coupons sink accounts
  *
  * @type {object}
  */
@@ -20,9 +20,17 @@ let sinks = {
         '-104': 'TC7MCY-5AGJQX-ZQ4BN3-BOPNXU-VIGDJC-OHBPGU-M2GE',
         '104': 'NCZSJH-LTIMES-ERVBVK-OW6US6-4YDZG2-PFGQCS-V23J',
         '96': 'MCGDK2-J46BOD-GGKMPI-KCBGTB-BIWL6A-L5ZKLK-Q56A'
+    },
+    coupons: {
+        //Testnet
+        '-104': 'TC5SVE-LWEUWA-3R2IEZ-34337G-GZTETK-TESUKD-SFPS',
+        //MainNet
+        '104': 'NB5YF7-CSCEWN-5TJ4UX-TUKFXD-VNB6PE-2DJ6VG-6PBW',
+        //Sorry can't generate a Mijin account :'(
+        '96': ':('
     }
 };
 
 module.exports = {
     sinks
-}
+};

@@ -555,6 +555,28 @@ input[type=checkbox]:checked + label:before {
 	}
 }
 
+input[type=radio] {
+  display:none;
+} /* to hide the radio itself */
+input[type=radio] + label:before {
+  font-family: FontAwesome;
+  display: inline-block;
+  font-size: 23px;
+}
+input[type=radio] + label:before {
+  content: "\f10c";
+} /* unchecked icon */
+input[type=radio] + label:before {
+  letter-spacing: 10px;
+} /* space between radio and label */
+
+input[type=radio]:checked + label:before {
+  content: "\f05d";
+} /* checked icon */
+input[type=radio]:checked + label:before {
+  letter-spacing: 10px;
+}
+
 /*** MAIN HEADER/NAVBAR STYLES ***/
 .navbar-brand {
   padding-left: $pad * 1.5;

@@ -3,6 +3,7 @@
 import convert from './convert';
 import CryptoHelpers from './CryptoHelpers';
 import TransactionTypes from './TransactionTypes';
+import Sinks from './sinks';
 
 /**
  * Check if wallet already present in an array
@@ -81,6 +82,18 @@ let txTypeToName = function(id) {
             return 'MosaicSupply';
         default:
             return 'Unknown_' + id;
+    }
+}
+
+let txAddressToType = function(address, wallet){
+    address = address.toUpperCase().replace(/-/g, '');
+
+    switch(address){
+        case Sinks.sinks.coupons[wallet.network].toUpperCase().replace(/-/g, ''):
+            return 'CouponTransaction';
+            break;
+        default:
+            return false;
     }
 }
 
@@ -408,6 +421,7 @@ module.exports = {
     haveWallet,
     needsSignature,
     txTypeToName,
+    txAddressToType,
     haveTx,
     getTransactionIndex,
     mosaicIdToName,
