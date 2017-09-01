@@ -145,10 +145,16 @@
                   <label for="box2">{{'TRANSFER_TRANSACTION_HEX_MESSAGE' | translate}}</label>
                 </fieldset>
               </div>-->
-              <div class="col-sm-6">
+              <div class="col-sm-3">
                 <fieldset class="form-group">
                   <input id="box3" type="checkbox" ng-model="$ctrl.formData.isMosaicTransfer" ng-change="$ctrl.setMosaicTransfer();">
                   <label for="box3">{{'TRANSFER_TRANSACTION_MOSAIC_TRANSFER' | translate}}</label>
+                </fieldset>
+              </div>
+              <div class="col-sm-3">
+                <fieldset class="form-group">
+                  <input id="box4" type="checkbox" ng-model="$ctrl.formData.hasCoupon" ng-change="$ctrl.setMosaicTransfer();">
+                  <label for="box4">{{'TRANSFER_TRANSACTION_ADD_COUPON' | translate}}</label>
                 </fieldset>
               </div>
             </div>

@@ -1,44 +1,72 @@
-<div class="namespace-provision-page">
-    <div class="container-fluid main">
+<div class="voting-page">
+    <div class="container-fluid" style="padding-left: 20px; padding-right: 20px;">
         <div class="row">
             <div class="col-sm-11">
-                <h2>{{ 'COUPONS_CREATE_TITLE' | translate }}</h2>
+                <h2>{{'COUPONS_VIEW_NAME' | translate}}: </h2>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-9 col-lg-7">
-                <div class="panel-heading">
-                    <div class="tabDescription">
-                        <span>
-                            {{ 'COUPONS_CREATE_NAME' | translate }}
-                        </span>
+        <div id="row1" class="row row1">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li ng-class="$ctrl.activeTab == 1 ? 'active': ''" ng-click="$ctrl.showMine()">
+                                <a>{{ 'COUPONS_VIEW_OWNED' | translate }}</a>
+                            </li>
+                            <li ng-class="$ctrl.activeTab == 2 ? 'active': ''" ng-click="$ctrl.showCreated()">
+                                <a>{{ 'COUPONS_VIEW_CREATED' | translate }}</a>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a>
-                                {{'COUPONS_TAB_CREATE' | translate }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel-body">
+                    <div class="panel-body">
+                        <div>
+                            <table class="table table-condensed top">
+                                <tr>
+                                    <th>{{'COUPONS_VIEW_COUPON_NAME' | translate}}</th>
+                                    <th>{{'COUPONS_VIEW_COUPON_TYPE' | translate}}</th>
+                                    <th>{{'COUPONS_VIEW_COUPON_AMOUNT' | translate}}</th>
+                                    <th ng-show="$ctrl.activeTab == 2">
+                                        {{'COUPONS_VIEW_COUPON_EDIT' | translate}}
+                                    </th>
+                                </tr>
+                            </table>
 
+                            <div class="pre-scrollable" ng-show="!$ctrl.loadingCoupons">
+                                <div ng-repeat="coupon in $ctrl.coupons track by $index">
+                                    <table class="table table-bordered table-hover ng-scope">
+                                        <tr>
+                                            <td class="coupon-name">
+                                               {{ coupon.name }}
+                                            </td>
+                                            <td class="coupon-type">
+                                                {{ coupon.type }}
+                                            </td>
+                                            <td class="coupon-amount">
+                                                {{ coupon.amount }}
+                                            </td>
+                                            <td class="coupon-edit" ng-show="$ctrl.activeTab == 2">
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <br>
+                            <button type="submit" class="btn btn-success pull-xs-left" style="width:10%" ng-click="$ctrl.refreshCoupons();" ng-disabled="$ctrl.loadingCoupons">
+                                <i ng-class="$ctrl.loadingCoupons ? 'fa fa-refresh fa-spin' : 'fa fa-refresh'" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-lg-5">
-                <div class="panel-heading">
-                    <h3>{{ 'COUPONS_CREATE_RESTRICTIONS' | translate }}</h3>
-                </div>
-                <div class="panel-body row">
-                    <div class="col-md-12 col-lg-12">
-                        <p>{{ 'COUPONS_CREATE_INFORMATION_1' | translate }}</p>
-                        <pre>a, b, c, ..., z, 0, 1, 2, ..., 9, _ , - mag niet blaat</pre>
-                    </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
                 </div>
             </div>
         </div>
-
     </div>
 </div>

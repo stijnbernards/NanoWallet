@@ -32,12 +32,52 @@ class Coupons {
         this._nemUtils = nemUtils;
 
         this.couponFee = 10;
+        this.couponCreateNamespace = 'couponCreate:';
+        this.couponOwnedNamespace = 'coupon:';
     }
 
     createCoupon(tx, common) {
         let message = JSON.stringify(tx.coupon);
 
-        return this._nemUtils.sendMessage(tx.recipient, message, common);
+        return this._nemUtils.sendMessage(tx.recipient, this.couponCreateNamespace + message, common);
+    }
+
+    getAccountCoupons(address) {
+        let coupons = [];
+
+        return this._nemUtils.getTransactionsWithString(address, this.couponOwnedNamespace).then((transactions) => {
+
+            for(let transaction of transactions){
+                coupons.push(
+                    JSON.parse(transaction.transaction.message.replace(this.couponOwnedNamespace, ''))
+                );
+            }
+
+            return coupons;
+        }).catch((e)=>{
+            throw e;
+        });
+    }
+
+    getAccountCreatedCoupons(address) {
+        let coupons = [];
+
+        return this._nemUtils.getTransactionsWithString(address, this.couponCreateNamespace).then((transactions) => {
+
+            for(let transaction of transactions){
+                coupons.push(
+                    JSON.parse(transaction.transaction.message.replace(this.couponCreateNamespace, ''))
+                );
+            }
+
+            return coupons;
+        }).catch((e)=>{
+            throw e;
+        });
+    }
+
+    resolveCreatorOrigin(couponData){
+
     }
 }
 

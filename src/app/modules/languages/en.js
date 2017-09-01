@@ -725,10 +725,19 @@ function EnglishProvider($translateProvider) {
         COUPONS_CREATE_FORM_COUPON_TYPE_NAME: 'Coupon type',
         COUPONS_CREATE_FORM_PERCENTAGE: 'Percentage based discount',
         COUPONS_CREATE_FORM_FIXED: 'Fixed discount',
+        COUPONS_CREATE_FORM_ASSET: 'Asset',
         COUPONS_CREATE_FORM_COUPON_PERCENTAGE_AMOUNT_NAME: 'Percentage discount',
         COUPONS_CREATE_FORM_COUPON_PERCENTAGE_AMOUNT_PLACEHOLDER: 'Enter Amount',
         COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_NAME: 'Fixed discount',
-        COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_PLACEHOLDER: 'Enter Amount'
+        COUPONS_CREATE_FORM_COUPON_FIXED_AMOUNT_PLACEHOLDER: 'Enter Amount',
+        COUPONS_VIEW_NAME: 'View coupons',
+        COUPONS_VIEW_OWNED: 'Owned Coupons',
+        COUPONS_VIEW_CREATED: 'Created Coupons',
+        COUPONS_VIEW_COUPON_NAME: 'Name',
+        COUPONS_VIEW_COUPON_TYPE: 'Type',
+        COUPONS_VIEW_COUPON_AMOUNT: 'Amount',
+        COUPONS_VIEW_COUPON_EDIT: 'Edit',
+        TRANSFER_TRANSACTION_ADD_COUPON: 'Add Transaction Coupon'
     });
 
 }

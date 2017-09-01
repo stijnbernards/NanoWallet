@@ -1,15 +1,15 @@
-function CouponsConfig($stateProvider) {
+function AddressBookConfig($stateProvider) {
     'ngInject';
 
     $stateProvider
-        .state('app.coupons', {
-            url: '/coupons',
-            controller: 'CouponsCtrl',
+        .state('app.addressBook', {
+            url: '/address-book',
+            controller: 'AddressBookCtrl', 
             controllerAs: '$ctrl',
-            templateUrl: 'modules/coupons/coupons.html',
-            title: 'Coupons'
+            templateUrl: 'modules/addressBook/addressBook.html',
+            title: 'Address book'
         });
 
 };
 
-export default CouponsConfig;
+export default AddressBookConfig;
