@@ -48,8 +48,12 @@ class Coupons {
         return this._nemUtils.getTransactionsWithString(address, this.couponOwnedNamespace).then((transactions) => {
 
             for(let transaction of transactions){
+                let couponData = JSON.parse(transaction.transaction.message.replace(this.couponOwnedNamespace, ''));
+
+                let address = Address.toAddress(transaction.transaction.signer, this._Wallet.network);
+
                 coupons.push(
-                    JSON.parse(transaction.transaction.message.replace(this.couponOwnedNamespace, ''))
+                    couponData
                 );
             }
 
@@ -65,8 +69,10 @@ class Coupons {
         return this._nemUtils.getTransactionsWithString(address, this.couponCreateNamespace).then((transactions) => {
 
             for(let transaction of transactions){
+                let couponData = JSON.parse(transaction.transaction.message.replace(this.couponCreateNamespace, ''));
+
                 coupons.push(
-                    JSON.parse(transaction.transaction.message.replace(this.couponCreateNamespace, ''))
+                    couponData
                 );
             }
 

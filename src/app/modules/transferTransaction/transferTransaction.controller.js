@@ -4,7 +4,7 @@ import CryptoHelpers from '../../utils/CryptoHelpers';
 import Network from '../../utils/Network';
 
 class TransferTransactionCtrl {
-    constructor($location, Wallet, Alert, Transactions, NetworkRequests, DataBridge, $state, $localStorage) {
+    constructor($location, Wallet, Alert, Transactions, NetworkRequests, DataBridge, $state, $localStorage, Coupons) {
         'ngInject';
 
         // Alert service
@@ -25,6 +25,8 @@ class TransferTransactionCtrl {
         this._storage = $localStorage;
         // use helpers in view
         this._helpers = helpers;
+
+        this._Coupons = Coupons;
 
         // If no wallet show alert and redirect to home
         if (!this._Wallet.current) {
@@ -61,10 +63,16 @@ class TransferTransactionCtrl {
         this.formData.mosaics = null;
         this.mosaicsMetaData = this._DataBridge.mosaicDefinitionMetaDataPair;
         this.formData.isMosaicTransfer = false;
+        //Used to show and hide coupon dropdown
+        this.formData.hasCoupon = false;
         this.currentAccountMosaicNames = [];
         this.selectedMosaic = "nem:xem";
         // Mosaics data for current account
         this.currentAccountMosaicData = "";
+
+        this.currentAccountCoupons = [];
+        this.availableCoupons = [];
+        this.loadingCoupons = false;
 
         // Invoice mode not active by default
         this.invoice = false;
@@ -431,6 +439,27 @@ class TransferTransactionCtrl {
             });
     }
 
+
+    //Start Coupon additions
+    setCoupon() {
+        this.loadingCoupons = true;
+        this._Coupons.getAccountCoupons(this._Wallet.currentAccount.address).then((data) => {
+
+            this.currentAccountCoupons = data;
+            this.loadingCoupons = false;
+
+            this.setAvailableCoupons();
+        }).catch((e) => {
+            this.loadingCoupons = false;
+            throw e;
+        });
+    }
+
+    setAvailableCoupons() {
+        for(let coupon of this.currentAccountCoupons){
+
+        }
+    }
 }
 
 export default TransferTransactionCtrl;

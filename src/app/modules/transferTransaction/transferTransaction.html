@@ -153,7 +153,7 @@
               </div>
               <div class="col-sm-3">
                 <fieldset class="form-group">
-                  <input id="box4" type="checkbox" ng-model="$ctrl.formData.hasCoupon" ng-change="$ctrl.setMosaicTransfer();">
+                  <input id="box4" type="checkbox" ng-model="$ctrl.formData.hasCoupon" ng-change="$ctrl.setCoupon();">
                   <label for="box4">{{'TRANSFER_TRANSACTION_ADD_COUPON' | translate}}</label>
                 </fieldset>
               </div>
@@ -208,6 +208,26 @@
 
       </div>
     </div>
+
+    <!-- Coupons Part -->
+      <div class="coupons col-lg-6 col-md-12" ng-show="$ctrl.formData.hasCoupon">
+        <div class="panel-heading">
+          <h3>{{ 'TRANSFER_TRANSACTION_ATTACH_COUPON' | translate}} <i class="fa fa-tag"></i></h3>
+        </div>
+
+        <div class="panel-heading">
+          <fieldset class="form-group">
+            <div class="input-group">
+                <span class="input-group-btn">
+                  <label class="control-label">{{ 'TRANSFER_TRANSACTION_SELECT_COUPON' | translate }}: </label>
+                </span>
+              <select class="col-sm-7 form-control" ng-options="couponName for couponName in $ctrl.currentAccountCoupons" ng-model="$ctrl.selectedCoupon" required="required" id="coupon" ng-disabled="!$ctrl.formData.hasCoupon"></select>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    <!-- End Coupons Part -->
+
     <!-- Mosaics part -->
       <div class="mosaic col-lg-6 col-md-12" ng-show="$ctrl.formData.isMosaicTransfer">
         <div class="panel-heading">
