@@ -7,7 +7,7 @@
         </div>
 
         <div id="row1" class="row row1">
-            <div class="col-md-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <ul class="nav nav-tabs">
@@ -29,24 +29,32 @@
                                     <th ng-show="$ctrl.activeTab == 2">
                                         {{'COUPONS_VIEW_COUPON_EDIT' | translate}}
                                     </th>
+                                    <th ng-show="$ctrl.activeTab == 2">
+                                        {{'COUPONS_VIEW_COUPON_DISTRIBUTE' | translate}}
+                                    </th>
                                 </tr>
                             </table>
 
                             <div class="pre-scrollable" ng-show="!$ctrl.loadingCoupons">
                                 <div ng-repeat="coupon in $ctrl.coupons track by $index">
-                                    <table class="table table-bordered table-hover ng-scope">
+                                    <table class="table table-bordered table-hover ng-scope" ng-class="coupon.beenSend ? '' : 'disabled'">
                                         <tr>
                                             <td class="coupon-name">
                                                {{ coupon.name }}
                                             </td>
                                             <td class="coupon-type">
-                                                {{ coupon.type }}
+                                                {{ 'COUPON_TYPE_' + coupon.type | translate}}
                                             </td>
                                             <td class="coupon-amount">
                                                 {{ coupon.amount }}
                                             </td>
                                             <td class="coupon-edit" ng-show="$ctrl.activeTab == 2">
 
+                                            </td>
+                                            <td class="coupon-distribute" ng-show="$ctrl.activeTab == 2">
+                                                <button class="btn btn-success pull-xs-left" ng-click="$ctrl.distributeShow(coupon)">
+                                                    {{'COUPONS_VIEW_COUPON_DISTRIBUTE' | translate}}
+                                                </button>
                                             </td>
                                         </tr>
                                     </table>
@@ -63,8 +71,83 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="panel panel-default">
+            <div class="distribute col-lg-6 col-md-12" ng-show="$ctrl.showDistribute">
+                <div class="panel-heading">
+                    <h3>{{ 'COUPON_VIEW_DISTRIBUTE_COUPONS' | translate}} <i class="fa fa-tag"></i></h3>
+                </div>
+
+                <div class="panel-body">
+                    <fieldset class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                              <label class="control-label">{{ 'COUPON_VIEW_DISTRIBUTE_ADD_ADDRESSES' | translate }}: </label>
+                            </span>
+
+                            <input class="form-control form-control-lg" style="min-width:85%" type="text" placeholder="{{'FORM_RECIPIENT_PLACEHOLDER' | translate}}" ng-model="$ctrl.recipientAddress" ng-model-options="{debounce:500}" ng-change="$ctrl.processRecipientInput()"/>
+
+                            <button type="submit" class="btn btn-success pull-right" style="width:10%" ng-click="$ctrl.addAddress()">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </fieldset>
+                    <table class="table table-condensed top">
+                        <tr>
+                            <th>{{'COUPONS_VIEW_DISTRIBUTE_ADDRESSES' | translate}}</th>
+                            <th>{{'COUPONS_VIEW_DISTRIBUTE_DELETE' | translate}}</th>
+                        </tr>
+                    </table>
+                    <div class="pre-scrollable">
+                        <div ng-repeat="address in $ctrl.distributeAddresses track by $index">
+                            <table class="table table-bordered table-hover ng-scope">
+                                <tr>
+                                    <td class="address-line-distribute">
+                                        {{ address.display }}
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-error" ng-click="$ctrl.removeAddress($index)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="submit-holder">
+                        <fieldset class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <label>{{'GENERAL_FEE' | translate}}: </label>
+                                </span>
+
+                                <div class="form-control formFloat" readOnly>
+                                    <span class="feeAmount">
+                                        <span>{{( $ctrl.distributeFee | fmtNemValue)[0]}}.{{($ctrl.distributeFee | fmtNemValue)[1]}}
+                                            <label class="floatRight">
+                                                <small>XEM</small>
+                                            </label>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <label ng-class="!$ctrl.common.password.length ? 'has-error' : ''">
+                                        {{ 'FORM_PASSWORD' | translate }}:
+                                    </label>
+                                </span>
+
+                                <input class="form-control password" type="password" placeholder="{{ 'FORM_PASSWORD_FIELD_PLACEHOLDER' | translate }}" ng-model="$ctrl.common.password" ng-class="!$ctrl.common.password.length ? 'has-error' : ''"/>
+                            </div>
+                        </fieldset>
+
+                        <button type="submit" class="btn btn-success" style="width:10%" ng-click="$ctrl.distributeCoupons()">
+                            <i class="fa fa-send-o" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

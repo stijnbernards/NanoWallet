@@ -737,7 +737,18 @@ function EnglishProvider($translateProvider) {
         COUPONS_VIEW_COUPON_TYPE: 'Type',
         COUPONS_VIEW_COUPON_AMOUNT: 'Amount',
         COUPONS_VIEW_COUPON_EDIT: 'Edit',
-        TRANSFER_TRANSACTION_ADD_COUPON: 'Add Transaction Coupon'
+        TRANSFER_TRANSACTION_ADD_COUPON: 'Add Coupon',
+        TRANSFER_TRANSACTION_SELECT_COUPON: 'Select Coupon',
+        TRANSFER_TRANSACTION_ATTACH_COUPON: 'Attach Coupon',
+        TRANSFER_TRANSACTION_SELECT_COUPON_PLACEHOLDER: 'Select coupon',
+        COUPON_TYPE_0: 'Percentage based',
+        COUPON_TYPE_1: 'Fixed Amount',
+        COUPON_TYPE_2: 'Asset',
+        COUPONS_VIEW_COUPON_DISTRIBUTE: 'Distribute',
+        COUPON_VIEW_DISTRIBUTE_COUPONS: 'Distribute coupons',
+        COUPON_VIEW_DISTRIBUTE_ADD_ADDRESSES: 'Add addresses to distribute to',
+        COUPONS_VIEW_DISTRIBUTE_ADDRESSES: 'Addresses',
+        COUPONS_VIEW_DISTRIBUTE_DELETE: 'Delete'
     });
 
 }

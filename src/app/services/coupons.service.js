@@ -24,7 +24,7 @@ class Coupons {
         /***
          * Declare services
          */
-        this._Wallet = Wallet
+        this._Wallet = Wallet;
         this._$http = $http;
         this._DataBridge = DataBridge;
         this._NetworkRequests = NetworkRequests;
@@ -34,56 +34,78 @@ class Coupons {
         this.couponFee = 10;
         this.couponCreateNamespace = 'couponCreate:';
         this.couponOwnedNamespace = 'coupon:';
+        this.couponSendNamespace = 'sendCoupon:';
     }
 
     createCoupon(tx, common) {
-        let message = JSON.stringify(tx.coupon);
+        let message = angular.toJson(tx.coupon);
 
         return this._nemUtils.sendMessage(tx.recipient, this.couponCreateNamespace + message, common);
     }
 
-    getAccountCoupons(address) {
-        let coupons = [];
+    sendCoupon(coupon, recipient, common) {
+        return this._nemUtils.sendMessage(recipient, this.couponOwnedNamespace + angular.toJson(coupon), common);
+    }
 
+    getAccountCoupons(address, withSend = false) {
         return this._nemUtils.getTransactionsWithString(address, this.couponOwnedNamespace).then((transactions) => {
+            return this._nemUtils.getTransactionsWithString(address, this.couponSendNamespace).then((sendCoupons) => {
+                let parsedCoupons = this.transactionsToCouponData(transactions);
+                for (let sendCoupon of this.transactionsToCouponData(sendCoupons)) {
+                    for (let [index, coupon] of parsedCoupons.entries()) {
 
-            for(let transaction of transactions){
-                let couponData = JSON.parse(transaction.transaction.message.replace(this.couponOwnedNamespace, ''));
+                        if (sendCoupon.creator == coupon.creator &&
+                            sendCoupon.name == coupon.name &&
+                            sendCoupon.type == coupon.type &&
+                            sendCoupon.amount == coupon.amount) {
 
-                let address = Address.toAddress(transaction.transaction.signer, this._Wallet.network);
+                            if (withSend) {
+                                parsedCoupons[index].beenSend = true;
+                            } else {
 
-                coupons.push(
-                    couponData
-                );
-            }
+                                //Here
+                                parsedCoupons.splice(index, 1);
+                            }
+                        }
+                    }
+                }
 
-            return coupons;
-        }).catch((e)=>{
+                return parsedCoupons;
+            });
+        }).catch((e) => {
             throw e;
         });
     }
 
     getAccountCreatedCoupons(address) {
-        let coupons = [];
-
         return this._nemUtils.getTransactionsWithString(address, this.couponCreateNamespace).then((transactions) => {
 
-            for(let transaction of transactions){
-                let couponData = JSON.parse(transaction.transaction.message.replace(this.couponCreateNamespace, ''));
-
-                coupons.push(
-                    couponData
-                );
-            }
-
-            return coupons;
-        }).catch((e)=>{
+            return this.transactionsToCouponData(transactions);
+        }).catch((e) => {
             throw e;
         });
     }
 
-    resolveCreatorOrigin(couponData){
+    transactionsToCouponData(transactions) {
+        let coupons = [];
 
+        for (let transaction of transactions) {
+            let couponData = transaction.transaction.message.replace(this.couponOwnedNamespace, '');
+            couponData = couponData.replace(this.couponSendNamespace, '');
+            couponData = couponData.replace(this.couponCreateNamespace, '');
+
+            couponData = JSON.parse(couponData);
+
+            if (couponData.creator == null) {
+                couponData.creator = Address.toAddress(transaction.transaction.signer, this._Wallet.network);
+            }
+
+            coupons.push(
+                couponData
+            );
+        }
+
+        return coupons;
     }
 }
 

@@ -72,7 +72,9 @@ class TransferTransactionCtrl {
 
         this.currentAccountCoupons = [];
         this.availableCoupons = [];
+        this.noCouponsFound = false;
         this.loadingCoupons = false;
+        this.selectedCoupon = {};
 
         // Invoice mode not active by default
         this.invoice = false;
@@ -442,9 +444,12 @@ class TransferTransactionCtrl {
 
     //Start Coupon additions
     setCoupon() {
+        if(!this.formData.hasCoupon){
+            return;
+        }
+
         this.loadingCoupons = true;
         this._Coupons.getAccountCoupons(this._Wallet.currentAccount.address).then((data) => {
-
             this.currentAccountCoupons = data;
             this.loadingCoupons = false;
 
@@ -456,9 +461,26 @@ class TransferTransactionCtrl {
     }
 
     setAvailableCoupons() {
-        for(let coupon of this.currentAccountCoupons){
+        let coupons = [];
 
+        for(let coupon of this.currentAccountCoupons){
+            if(coupon.creator == this.formData.rawRecipient.split('-').join('')){
+                coupons.push(coupon);
+            }
         }
+
+        if(coupons.length == 0){
+            debugger;
+            this.noCouponsFound = true;
+        }else{
+            this.noCouponsFound = false;
+        }
+
+        this.availableCoupons = coupons;
+    }
+
+    selectCoupon() {
+        this.formData.message = this._Coupons.couponSendNamespace + angular.toJson(this.selectedCoupon);
     }
 }
 

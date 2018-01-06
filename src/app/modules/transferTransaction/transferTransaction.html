@@ -93,11 +93,11 @@
             </fieldset>
             <!-- Message Field -->
             <fieldset class="form-group">
-              <div class="input-group">
+              <div class="input-group" ng-disabled="$ctrl.formData.hasCoupon">
                 <span class="input-group-btn message">
                   <label>{{'FORM_MESSAGE_PLACEHOLDER' | translate}}: </label>
                 </span>
-                <textarea class="form-control" ng-model="$ctrl.formData.message" placeholder="{{'FORM_MESSAGE_PLACEHOLDER' | translate}}" rows="4" ng-change="$ctrl.updateFees();" ng-class="$ctrl.charsLeft < 0 ? 'has-error' : ''"></textarea>
+                <textarea class="form-control" ng-disabled="$ctrl.formData.hasCoupon" ng-model="$ctrl.formData.message" placeholder="{{'FORM_MESSAGE_PLACEHOLDER' | translate}}" rows="4" ng-change="$ctrl.updateFees();" ng-class="$ctrl.charsLeft < 0 ? 'has-error' : ''"></textarea>
               </div>
               <p style="float:right;margin-top:5px;"><b>{{ 'GENERAL_CHARACTERS_LEFT' | translate }}</b>: {{ $ctrl.charsLeft }}</p>
             </fieldset>
@@ -210,18 +210,21 @@
     </div>
 
     <!-- Coupons Part -->
-      <div class="coupons col-lg-6 col-md-12" ng-show="$ctrl.formData.hasCoupon">
+      <div class="coupons col-lg-6 col-md-12" ng-show="$ctrl.formData.hasCoupon && !$ctrl.invoice">
         <div class="panel-heading">
           <h3>{{ 'TRANSFER_TRANSACTION_ATTACH_COUPON' | translate}} <i class="fa fa-tag"></i></h3>
         </div>
 
-        <div class="panel-heading">
+        <div class="panel-body">
           <fieldset class="form-group">
             <div class="input-group">
                 <span class="input-group-btn">
                   <label class="control-label">{{ 'TRANSFER_TRANSACTION_SELECT_COUPON' | translate }}: </label>
                 </span>
-              <select class="col-sm-7 form-control" ng-options="couponName for couponName in $ctrl.currentAccountCoupons" ng-model="$ctrl.selectedCoupon" required="required" id="coupon" ng-disabled="!$ctrl.formData.hasCoupon"></select>
+              <select class="col-sm-7 form-control" ng-options="coupon.name for coupon in $ctrl.availableCoupons" ng-model="$ctrl.selectedCoupon" ng-change="$ctrl.selectCoupon()" required="required" id="coupon" ng-disabled="!$ctrl.formData.hasCoupon">
+                  <option ng-show="!$cntrl.noCouponsFound" value="" disabled selected>{{ 'TRANSFER_TRANSACTION_SELECT_COUPON_PLACEHOLDER' | translate }}</option>
+                  <option ng-show="$cntrl.noCouponsFound" value="" disabled selected>{{ 'TRANSFER_TRANSACTION_SELECT_COUPON_NOT_FOUND' | translate }}</option>
+              </select>
             </div>
           </fieldset>
         </div>
